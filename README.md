@@ -110,11 +110,7 @@ ESRGAN
 # distributed training
 :
 
-Usage: bash run_distribute_train.sh [DEVICE_NUM] [DISTRIBUTE] [RANK_TABLE_FILE] [LRPATH] [GTPATH] [VGGCKPT] [VPSNRLRPATH] [VPSNRGTPATH] [VGANLRPATH] [VGANGTPATH]
 
-# The meaning of the parameters:  DEVICE_NUM(Number of machines) DISTRIBUTE(Whether to use multiple machines) RANK_TABLE_FILE(Machine configuration file) LRPATH(LR training data set picture location) GTPATH(HR training data set picture location) VGGCKPT(VGG19 pre-training parameter position) VPSNRLRPATH(Set5 test set LR picture position) VPSNRGTPATH(Set5 test set HR picture location) VGANLRPATH(Set14 test set LR picture position) VGANGTPATH(Set14 test set HR picture location)
-
-eg: bash run_distribute_train.sh 8 1 ./hccl_8p.json /data/DIV2K/DIV2K_train_LR_bicubic/X4_sub /data/DIV2K/DIV2K_train_HR_sub /home/HEU_535/A8/used/GAN_MD/VGG.ckpt /data/DIV2K/Set5/LRbicx4 /data/DIV2K/Set5/GTmod12 /data/DIV2K/Set14/LRbicx4 /data/DIV2K/Set14/GTmod12
 
 GPU:
 
@@ -125,13 +121,6 @@ Usage: bash run_distribute_train_gpu.sh [DEVICE_NUM] [LRPATH] [GTPATH] [VGGCKPT]
 eg: bash run_distribute_train_gpu.sh 8  /data/DIV2K/DIV2K_train_LR_bicubic/X4_sub /data/DIV2K/DIV2K_train_HR_sub /home/HEU_535/A8/used/GAN_MD/VGG.ckpt /data/DIV2K/Set5/LRbicx4 /data/DIV2K/Set5/GTmod12 /data/DIV2K/Set14/LRbicx4 /data/DIV2K/Set14/GTmod12
 
 # standalone training
-:
-
-Usage: bash run_standalone_train.sh  [DEVICE_ID] [LRPATH] [GTPATH] [VGGCKPT] [VPSNRLRPATH] [VPSNRGTPATH] [VGANLRPATH] [VGANGTPATH]
-
-# The meaning of the parameters DEVICE_ID(Machine ID) LRPATH(LR training data set picture location) GTPATH(HR training data set picture location) VGGCKPT(VGG19 pre-training parameter position) VPSNRLRPATH(Set5 test set LR picture position) VPSNRGTPATH(Set5 test set HR picture position) VGANLRPATH(Set14 test set LR picture position) VGANGTPATH(Set14 test set HR picture position)
-
-eg: bash run_standalone_train.sh 0 /data/DIV2K/DIV2K_train_LR_bicubic/X4_sub /data/DIV2K/DIV2K_train_HR_sub /home/HEU_535/A8/used/GAN_MD/VGG.ckpt /data/DIV2K/Set5/LRbicx4 /data/DIV2K/Set5/GTmod12 /data/DIV2K/Set14/LRbicx4 /data/DIV2K/Set14/GTmod12
 
 GPU:
 
@@ -153,11 +142,6 @@ Training result will be stored in ckpt/train_parallel0/ckpt. You can find checkp
 
 ```bash
 # evaling
-:
-
-Usage: bash run_eval.sh [CKPT] [EVALLRPATH] [EVALGTPATH] [DEVICE_ID]
-
-eg: bash run_eval.sh /ckpt/psnr_best.ckpt /data/DIV2K/Set5/LRbicx4 /data/DIV2K/Set5/GTmod12 0
 
 GPU:
 
@@ -208,30 +192,22 @@ Inference result is saved in current path, you can find result like this in acc.
 
 ### Training Performance
 
-| Parameters                 |  910                                                  | NVIDIA GeForce RTX 3090                        |
-| -------------------------- | ----------------------------------------------------------- |------------------------------------------------|
-| Model Version              | V1                                                          | V1                                             |
-| MindSpore Version          | 1.3.0                                                       | 1.6.0                                          |
-| Dataset                    | DIV2K                                                       | DIV2K                                          |
-| Training Parameters        | step=1000000+400000,  batch_size = 16                       | step=1000000+400000,  batch_size = 16          |
-| Optimizer                  | Adam                                                        | Adam                                           |
-| Loss Function              | BCEWithLogitsLoss  L1Loss VGGLoss                           | BCEWithLogitsLoss  L1Loss VGGLoss              |
-| outputs                    | super-resolution pictures                                   | super-resolution pictures                      |
-| Accuracy                   | Set5 psnr 32.56, Set14 psnr 26.23                           | Set5 psnr 30.37, Set14 psnr 26.51              |
-| Speed                      | 1pc(): 212,216 ms/step; 8pcs: 77,118 ms/step          | 8pcs:239ms/step + 409ms/step                   |
-| Total time                 | 8pcs: 36h                                                   |                                                |
-| Checkpoint for Fine tuning | 64.86M (.ckpt file)                                         |64.86M (.ckpt file)                             |
+| Parameters                 |   NVIDIA GeForce RTX 3090                        |
+| -------------------------- | ------------------------------------------------|
+| Model Version              | V1                                             |
+| MindSpore Version          |  1.6.0                                          |
+| Dataset                    |  DIV2K                                          |
+| Training Parameters        |  step=1000000+400000,  batch_size = 16          |
+| Optimizer                  | Adam                                           |
+| Loss Function              |  BCEWithLogitsLoss  L1Loss VGGLoss              |
+| outputs                    | super-resolution pictures                      |
+| Accuracy                   |  Set5 psnr 30.37, Set14 psnr 26.51              |
+| Speed                      |  8pcs:239ms/step + 409ms/step                   |
+| Total time                 |                                                |
+| Checkpoint for Fine tuning | 64.86M (.ckpt file)                             |
 | Scripts                    | [esrgan script](https://gitee.com/mindspore/models/tree/master/research/cv/ESRGAN) |
 
-### Evaluation Performance
 
-| Parameters          |  910               |
-| ------------------- | -------------------------|
-| Model Version       | V1                       |
-| MindSpore Version   | 1.3.0                    |
-| Dataset             | Set14                    |
-| batch_size          | 1                        |
-| outputs             | super-resolution pictures|
 
 # [ModelZoo Homepage](#contents)
 
